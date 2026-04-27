@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABV BEER CLUB</title>
+  <style>
+    :root {
+      --bg: #f7f3ed;
+      --card: #fffdf9;
+      --text: #1f1f1f;
+      --muted: #6a635c;
+      --line: #e6d6c3;
+      --brand: #d9a441;
+      --brand-dark: #0f0f0f;
+      --brand-soft: #fff3df;
+      --accent: #d9a441;
+      --accent-brown: #b97d27;
+      --milestone-ipa: #f59e0b;
+      --milestone-stout: #3b2f2f;
+      --milestone-sour: #10b981;
+      --milestone-lager: #3b82f6;
+      --milestone-wheat: #eab308;
+      --radius: 18px;
+      --shadow: 0 12px 28px rgba(15,15,15,.08);
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #faf6f0 0%, #f4ede4 100%);
+      line-height: 1.8;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 80px;
+    }
+
+     .hero {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 48%, #2d2219 100%);
+      color: #fff;
+      border-radius: 28px;
+      padding: 40px 32px;
+      box-shadow: 0 18px 40px rgba(18,18,18,.22);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(217,164,65,.18);
+    }
+
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247,243,237,.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(217,164,65,.14);
+      margin: 14px 0 18px;
+    }
+
+    .sticky-nav-inner {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      padding: 12px 0;
+      overflow: auto;
+    }
+
+    .sticky-nav a {
+      white-space: nowrap;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fffdf9;
+      border: 1px solid var(--line);
+      font-size: 14px;
+      color: #1f1f1f;
+    }
+
+    .section {
+      margin-top: 28px;
+      background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 30px 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .section h2 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.25;
+      color: #1f1f1f;
+    }
+
+    .section-intro {
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      background: linear-gradient(180deg, #fff6ea 0%, #fffdf7 100%);
+      color: #5c3d2c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1px solid rgba(217,164,65,.25);
+    }
+
+    .grid-2,
+    .brand-grid,
+    .milestone-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .brand-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .milestone-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: var(--brand-dark);
+      line-height: 1.3;
+    }
+
+    .card p { margin: 0 0 12px; color: var(--muted); }
+    .card ul { margin: 0; padding-left: 1.2em; }
+
+    .highlight {
+      background: linear-gradient(180deg, #fff8ef 0%, #fffdf9 100%);
+      border-color: rgba(217,164,65,.3);
+    }
+
+    .reward-box {
+      border: 1px dashed rgba(217,164,65,.45);
+      border-radius: 16px;
+      padding: 14px;
+      background: linear-gradient(180deg, #fff7ec 0%, #fffdf9 100%);
+      margin-top: 14px;
+      color: #6b4226;
+      font-weight: 700;
+    }
+
+    .benefits-carousel { position: relative; margin-top: 18px; }
+    .benefits-viewport { overflow: hidden; border-radius: 24px; }
+    .benefits-track { display: flex; gap: 18px; transition: transform .35s ease; will-change: transform; }
+    .benefit-slide { min-width: calc((100% - 36px) / 3); flex: 0 0 calc((100% - 36px) / 3); display: flex; }
+    .benefit-slide .card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-height: 320px; }
+    .benefit-slide .card ul { margin-top: auto; }
+    .benefits-controls { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:18px; }
+    .benefits-arrow { width:56px; height:56px; border-radius:999px; border:1px solid rgba(217,164,65,.35); background:#fffdf9; color:#1f1f1f; font-size:28px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow:0 8px 20px rgba(15,15,15,.06); }
+    .benefits-arrow:disabled { opacity:.35; cursor:not-allowed; }
+    .benefits-dots { display:flex; gap:8px; min-width:90px; justify-content:center; }
+    .benefit-dot { width:10px; height:10px; border-radius:999px; background:#d8cfc5; transition:.2s ease; }
+    .benefit-dot.active { width:28px; background:linear-gradient(135deg, #d9a441 0%, #c57a3b 100%); }
+
+    .tier-flow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr) 52px minmax(0, 1fr);
+      align-items: stretch;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .tier-card { position: relative; overflow: hidden; min-width: 0; }
+    .tier-card .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: var(--brand-soft);
+      color: #6b4226;
+    }
+    .tier-card.is-top-tier { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(18,18,18,.08); border-color: #e0c198; }
+    .tier-card.is-top-tier .tag { background: linear-gradient(135deg, #d9a441 0%, #c57a3b 100%); color: #121212; }
+    .tier-arrow { display:flex; align-items:center; justify-content:center; min-width:0; }
+    .tier-arrow__inner { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; color:#b08a63; opacity:.72; min-height:100%; }
+    .tier-arrow__label { font-size:12px; font-weight:700; letter-spacing:.08em; writing-mode: vertical-rl; text-orientation: mixed; }
+    .tier-arrow__icon { font-size:28px; line-height:1; font-weight:900; }
+
+    .brand-card h3 { font-size: 20px; margin-bottom: 10px; }
+    .reward-hero-card { display:grid; grid-template-columns:170px 1fr; gap:16px; align-items:stretch; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #eee0d1; }
+    .reward-hero-media { border-radius:18px; overflow:hidden; min-height:170px; background: linear-gradient(135deg, #f1d8a8 0%, #b97d27 100%); position:relative; }
+    .reward-hero-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; text-align:center; padding:16px; color:rgba(255,255,255,.92); font-size:16px; font-weight:700; line-height:1.7; }
+    .reward-hero-copy h4 { margin:0 0 8px; font-size:22px; line-height:1.35; color:var(--brand-dark); }
+    .reward-hero-copy p { margin:0 0 12px; color:var(--muted); }
+    .reward-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+    .reward-tag { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:999px; background:#fff4e8; color:#6b4226; font-size:12px; font-weight:700; border:1px solid rgba(217,164,65,.22); }
+    .reward-cta-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+    .reward-link { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:0 14px; border-radius:999px; font-size:14px; font-weight:700; color:#4b3528; background:#fff8ef; border:1px solid rgba(217,164,65,.22); }
+
+    .reward-list { display: grid; gap: 8px; }
+    .reward-item { display:flex; gap:10px; align-items:flex-start; padding-bottom:8px; border-bottom:1px dashed #eee0d1; }
+    .reward-item:last-child { border-bottom:0; padding-bottom:0; }
+    .pts { flex:0 0 52px; display:inline-flex; justify-content:center; align-items:center; min-height:30px; padding:0 8px; border-radius:999px; background:var(--brand-soft); color:#6b4226; font-size:13px; font-weight:700; }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .step::after { content:""; position:absolute; inset:auto -24px -30px auto; width:90px; height:90px; border-radius:999px; background:rgba(217,164,65,.06); }
+    .step-media { width:100%; height:92px; border-radius:14px; overflow:hidden; display:flex; align-items:center; justify-content:center; margin-bottom:12px; position:relative; z-index:1; }
+    .step-placeholder { text-align:center; color:rgba(255,255,255,.95); font-size:13px; font-weight:700; line-height:1.6; padding:8px; }
+    .step-tier { display:inline-flex; align-items:center; justify-content:center; min-height:30px; padding:0 10px; border-radius:999px; background:#fff3e7; color:var(--accent-brown); font-size:13px; font-weight:700; margin-bottom:10px; width:fit-content; position:relative; z-index:1; }
+    .step strong { display:block; color:var(--brand-dark); font-size:17px; line-height:1.5; margin-bottom:6px; position:relative; z-index:1; }
+    .step p { margin:0; color:var(--muted); font-size:14px; line-height:1.75; position:relative; z-index:1; }
+    .step.is-highlight { background:linear-gradient(180deg, #fff8ef 0%, #fffdfb 100%); border-color:#e6c49d; box-shadow:0 10px 24px rgba(122,75,42,.10); transform:translateY(-4px); }
+    .step.is-highlight .step-tier { background:linear-gradient(135deg, #d9a441 0%, #c57a3b 100%); color:#121212; }
+
+    .notes { margin-top:18px; background:linear-gradient(180deg, #fffaf4 0%, #fffdf9 100%); border:1px solid var(--line); border-radius:16px; padding:18px; }
+    .notes h3 { margin-top:0; color:var(--brand-dark); }
+    .notes ul { margin:0; padding-left:1.2em; color:var(--muted); }
+
+    .faq-tabs, .terms-nav { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+    .faq-tab, .terms-tab { border:1px solid var(--line); background:#fffdf9; color:var(--brand-dark); border-radius:999px; padding:10px 14px; font-weight:700; cursor:pointer; }
+    .faq-tab.active, .terms-tab.active { background:linear-gradient(135deg, #3b2f2f 0%, #121212 100%); color:#fff; border-color:#121212; }
+    .faq-panel, .terms-panel { display:none; }
+    .faq-panel.active, .terms-panel.active { display:block; }
+    .faq-item { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:linear-gradient(180deg, #fffdf9 0%, #ffffff 100%); margin-bottom:12px; }
+    .faq-q { width:100%; border:0; background:#fff; text-align:left; font:inherit; font-weight:700; color:var(--brand-dark); padding:16px 18px; cursor:pointer; display:flex; justify-content:space-between; gap:12px; }
+    .faq-q span:last-child { color: var(--accent); transition: transform .2s ease; }
+    .faq-item.open .faq-q span:last-child { transform: rotate(45deg); }
+    .faq-a { display:none; padding:0 18px 18px; color:var(--muted); }
+    .faq-item.open .faq-a { display:block; }
+
+    .policy { border:1px solid var(--line); border-radius:18px; padding:22px 20px; background:#fff; }
+    .policy h3 { margin-top:0; margin-bottom:14px; color:var(--brand-dark); font-size:24px; }
+    .policy h4 { margin:22px 0 8px; color:var(--brand-dark); font-size:18px; }
+    .policy p, .policy li { color:#444; }
+    .policy ol, .policy ul { padding-left:1.3em; margin:0; }
+
+    .footer-cta {
+      margin-top: 28px;
+      background: linear-gradient(135deg, #0f0f0f 0%, #2d2219 100%);
+      color: #fff;
+      border-radius: 24px;
+      padding: 26px 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid rgba(217,164,65,.18);
+    }
+    .footer-cta h3 { margin:0 0 6px; font-size:28px; }
+    .footer-cta p { margin:0; color:rgba(255,255,255,.88); }
+
+    .abv-hero-entry {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at top right, rgba(217,164,65,.12), transparent 22%), linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 48%, #2d2219 100%);
+      color: #fff;
+      border-radius: 32px;
+      padding: 48px 32px 36px;
+      box-shadow: 0 18px 40px rgba(18,18,18,.22);
+      border: 1px solid rgba(217,164,65,.18);
+    }
+    .abv-hero-entry__bg::before, .abv-hero-entry__bg::after { content:""; position:absolute; border-radius:999px; pointer-events:none; }
+    .abv-hero-entry__bg::before { width:260px; height:260px; right:-80px; top:-70px; background:rgba(217,164,65,.08); }
+    .abv-hero-entry__bg::after { width:180px; height:180px; left:-50px; bottom:-60px; background:rgba(255,255,255,.04); }
+    .abv-hero-entry__inner { position:relative; z-index:2; max-width:1180px; margin:0 auto; }
+    .abv-hero-entry__headline { margin-bottom:28px; }
+    .abv-hero-entry__eyebrow { display:inline-flex; align-items:center; min-height:30px; padding:0 12px; border-radius:999px; background:rgba(217,164,65,.12); border:1px solid rgba(217,164,65,.22); color:#f2d7a5; font-size:12px; font-weight:800; letter-spacing:.08em; margin-bottom:14px; }
+    .abv-hero-entry__title { margin:0; line-height:.95; display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px; }
+    .abv-hero-entry__title-main { font-size: clamp(42px, 7vw, 86px); font-weight:900; letter-spacing:-.03em; color:#d9a441; }
+    .abv-hero-entry__desc { margin:22px 0 0; max-width:760px; font-size:18px; line-height:1.85; color:rgba(255,255,255,.9); }
+    .abv-hero-entry__actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
+    .abv-btn { display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:0 18px; border-radius:999px; font-size:15px; font-weight:800; text-decoration:none; transition:.2s ease; }
+    .abv-btn:hover { transform:translateY(-1px); }
+    .abv-btn--gold { background:linear-gradient(135deg, #d9a441 0%, #c57a3b 100%); color:#121212; box-shadow:0 10px 24px rgba(197,122,59,.28); }
+    .abv-btn--outline { background:transparent; color:#fff; border:1px solid rgba(217,164,65,.3); }
+    .abv-hero-entry__cards { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px; margin-top:34px; }
+    .abv-entry-card { display:grid; grid-template-columns:110px 1fr; gap:18px; align-items:center; border-radius:24px; padding:18px; text-decoration:none; transition:.2s ease; min-height:220px; }
+    .abv-entry-card:hover { transform:translateY(-2px); }
+    .abv-entry-card--light { background:linear-gradient(180deg, #fffaf3 0%, #fffdf9 100%); border:1px solid #eadbcc; color:#2b2b2b; }
+    .abv-entry-card--dark { background:linear-gradient(135deg, #1f1a16 0%, #0f0f0f 100%); border:1px solid rgba(217,164,65,.16); color:#fff; }
+    .abv-entry-card__media { width:110px; height:110px; border-radius:22px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .abv-entry-card--light .abv-entry-card__media { background:linear-gradient(135deg, #f3dfc2 0%, #d9a441 100%); }
+    .abv-entry-card--dark .abv-entry-card__media { background:linear-gradient(135deg, #d9a441 0%, #8c6239 100%); }
+    .abv-entry-card__icon { font-size:42px; line-height:1; }
+    .abv-entry-card__tag { display:inline-flex; align-items:center; min-height:28px; padding:0 10px; border-radius:999px; font-size:12px; font-weight:800; margin-bottom:10px; width:fit-content; }
+    .abv-entry-card--light .abv-entry-card__tag { background:#fff1df; color:#6b4226; border:1px solid #f0dcc5; }
+    .abv-entry-card--dark .abv-entry-card__tag { background:rgba(217,164,65,.16); color:#f2d7a5; border:1px solid rgba(217,164,65,.18); }
+    .abv-entry-card__title { margin:0 0 8px; font-size:34px; line-height:1.15; font-weight:900; }
+    .abv-entry-card--light .abv-entry-card__title { color:#1f1f1f; }
+    .abv-entry-card--dark .abv-entry-card__title { color:#fff7ea; }
+    .abv-entry-card__text { margin:0; font-size:15px; line-height:1.8; }
+    .abv-entry-card--light .abv-entry-card__text { color:#6f665f; }
+    .abv-entry-card--dark .abv-entry-card__text { color:rgba(255,255,255,.8); }
+    .abv-entry-card__cta { margin-top:14px; font-size:15px; font-weight:800; }
+    .abv-entry-card--light .abv-entry-card__cta { color:#6b4226; }
+    .abv-entry-card--dark .abv-entry-card__cta { color:#f2d7a5; }
+
+    @media (max-width: 980px) {
+      .grid-2, .brand-grid, .milestone-grid { grid-template-columns: 1fr 1fr; }
+      .benefit-slide { min-width: calc((100% - 18px) / 2); flex: 0 0 calc((100% - 18px) / 2); display:flex; }
+      .benefit-slide .card { min-height:300px; }
+      .tier-flow { display:grid; grid-template-columns:1fr; gap:12px; }
+      .tier-arrow { min-height:32px; min-width:100%; }
+      .tier-arrow__inner { flex-direction:row; gap:8px; }
+      .tier-arrow__label { writing-mode:horizontal-tb; }
+      .tier-arrow__icon { transform:rotate(90deg); }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 20px, var(--max)); padding: 16px 0 56px; }
+      .hero { padding: 22px 18px; border-radius: 22px; }
+      .abv-hero-entry { padding: 24px 20px 18px; border-radius: 24px; }
+      .abv-hero-entry__headline { margin-bottom: 16px; }
+      .abv-hero-entry__desc { font-size:16px; margin-top: 14px; }
+      .abv-hero-entry__actions { margin-top: 16px; gap: 10px; }
+      .abv-hero-entry__cards { grid-template-columns:1fr; gap: 12px; margin-top: 18px; }
+      .abv-entry-card { grid-template-columns:1fr; min-height:auto; padding: 14px; }
+      .abv-entry-card__media { width:100%; height:96px; }
+      .abv-entry-card__title { font-size: 28px; }
+      .abv-entry-card__text { font-size: 14px; line-height: 1.7; }
+
+      .sticky-nav {
+        margin: 8px 0 10px;
+      }
+      .sticky-nav-inner {
+        width: min(100% - 20px, var(--max));
+        display: grid;
+        grid-template-rows: repeat(2, auto);
+        grid-auto-flow: column;
+        gap: 8px;
+        padding: 8px 0 6px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        align-items: start;
+      }
+      .sticky-nav a {
+        text-align: center;
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section {
+        margin-top: 12px;
+        padding: 18px 14px;
+        border-radius: 20px;
+      }
+      .section h2 {
+        margin-bottom: 6px;
+      }
+      .section-intro {
+        margin: 0 0 14px;
+      }
+
+      .grid-2, .brand-grid, .milestone-grid { grid-template-columns: 1fr; }
+      .benefit-slide { min-width:100%; flex:0 0 100%; display:flex; }
+      .benefit-slide .card { min-height:240px; }
+      .benefits-controls { margin-top: 12px; }
+      .benefits-arrow { width:44px; height:44px; }
+      .reward-hero-card { grid-template-columns: 1fr; gap: 12px; margin-bottom: 14px; padding-bottom: 14px; }
+      .reward-hero-media { min-height: 180px; }
+
+      .footer-cta h3 { font-size: 24px; }
+      section[id] { scroll-margin-top: 118px; }
+    }
+  
+    .policy-member {
+      background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
+    }
+
+    .policy-member h3 {
+      font-size: clamp(26px, 3vw, 34px);
+      line-height: 1.35;
+      margin-bottom: 18px;
+    }
+
+    .policy-member h4 {
+      margin-top: 26px;
+      margin-bottom: 10px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(217,164,65,.16);
+      font-size: 19px;
+      line-height: 1.45;
+    }
+
+    .policy-member p,
+    .policy-member li {
+      color: #4b4540;
+      line-height: 1.95;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero abv-hero-entry">
+      <div class="abv-hero-entry__bg"></div>
+      <div class="abv-hero-entry__inner">
+        <div class="abv-hero-entry__headline">
+          <div class="abv-hero-entry__eyebrow">ABV BEER CLUB</div>
+          <h1 class="abv-hero-entry__title">
+            <span class="abv-hero-entry__title-main">ABV 精釀啤酒俱樂部</span>
+          </h1>
+          <p class="abv-hero-entry__desc">
+            從第一瓶開始，累積你的精釀里程碑。<br>
+            在 ABV，吃世界料理、喝世界精釀，<br>
+            每一次聚餐，都會留下你的專屬回饋。
+          </p>
+          <div class="abv-hero-entry__actions">
+            <a class="abv-btn abv-btn--gold" href="https://lin.ee/PkNf3lE" target="_blank" rel="noopener" target="_blank" rel="noopener">立即加入</a>
+            <a class="abv-btn abv-btn--outline" href="#member-benefits">查看會員權益</a>
+          </div>
+        </div>
+        <div class="abv-hero-entry__cards">
+          <a href="#points" class="abv-entry-card abv-entry-card--light">
+            <div class="abv-entry-card__media"><div class="abv-entry-card__icon">🍺</div></div>
+            <div class="abv-entry-card__content">
+              <div class="abv-entry-card__tag">第一次加入</div>
+              <h3 class="abv-entry-card__title">新手攻略</h3>
+              <p class="abv-entry-card__text">入會禮、點數怎麼累積、生日禮怎麼拿，先從這裡快速看懂。</p>
+              <div class="abv-entry-card__cta">了解詳情 →</div>
+            </div>
+          </a>
+          <a href="#milestone" class="abv-entry-card abv-entry-card--dark">
+            <div class="abv-entry-card__media"><div class="abv-entry-card__icon">🏆</div></div>
+            <div class="abv-entry-card__content">
+              <div class="abv-entry-card__tag">精釀玩家</div>
+              <h3 class="abv-entry-card__title">里程碑獎勵</h3>
+              <p class="abv-entry-card__text">每一瓶啤酒都會被記住，從 10 點到 100 點，逐步解鎖你的收藏獎勵。</p>
+              <div class="abv-entry-card__cta">了解更多 →</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <nav class="sticky-nav">
+    <div class="sticky-nav-inner">
+      <a href="#five-benefits">五大會員回饋</a>
+      <a href="#share-reward">好友分享回饋</a>
+      <a href="#member-benefits">會員升等與好處</a>
+      <a href="#points">消費累積點數</a>
+      <a href="#redeem">點數兌換商品</a>
+      <a href="#milestone">啤酒里程碑</a>
+      <a href="#birthday">生日禮</a>
+      <a href="#faq">FAQ</a>
+      <a href="#terms">條款與隱私</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <section id="five-benefits" class="section">
+      <h2>ABV BEER CLUB 五大會員回饋</h2>
+      <p class="section-intro">ABV BEER CLUB 不是單純的集點會員，而是一套從入會回饋、點數累積、低門檻兌換、好友分享，到啤酒里程碑與高階會員待遇的完整獎勵系統。從第一頓、第一瓶開始，你的每一次聚餐都會變得更有價值。</p>
+      <div class="benefits-carousel" data-carousel="benefits">
+        <div class="benefits-viewport">
+          <div class="benefits-track">
+            <div class="benefit-slide"><article class="card tier-card highlight"><div class="tag">回饋 01</div><h3>入會即送 6 大品牌兌換禮，即領即用</h3><p>一加入 ABV BEER CLUB，就不是空帳號，而是立刻拿到 6 張各品牌餐點兌換券，即領即用，從第一頓開始就有感。</p><ul><li>橫跨 ABV 六大品牌</li><li>入會立即取得，不用先累積</li><li>先體驗，再開始你的會員旅程</li></ul></article></div>
+            <div class="benefit-slide"><article class="card tier-card"><div class="tag">回饋 02</div><h3>點數累積越喝越快</h3><p>你的回饋不只會累積，還會隨著會員升級逐步加速。越常來，點數差距越明顯。</p><ul><li>微醺客升等先送 30 點</li><li>微醺客消費點數 1.2 倍</li><li>品釀家升等先送 100 點</li><li>品釀家消費點數 1.5 倍</li></ul></article></div>
+            <div class="benefit-slide"><article class="card tier-card highlight"><div class="tag">回饋 03</div><h3>15 點就能開始換料理</h3><p>不是累很久才有感，而是從低門檻就能換到真正吃得到的餐點，讓點數回饋更直接。</p><ul><li>15 點就有可兌換品項</li><li>各品牌都有對應餐點</li><li>比高門檻兌換制度更容易有感</li></ul></article></div>
+            <div class="benefit-slide"><article class="card tier-card"><div class="tag">回饋 04</div><h3>啤酒里程碑解鎖成就獎勵</h3><p>這不只是點數系統，而是原本紙本啤酒貼紙集點卡的進化版。每一瓶啤酒都會被記錄，逐步解鎖專屬里程碑獎勵。</p><ul><li>指定精釀啤酒依瓶型與品項累積 1 點或 2 點</li><li>10 點到 100 點逐步解鎖</li><li>結合收藏、回饋與成就感</li></ul></article></div>
+            <div class="benefit-slide"><article class="card tier-card highlight"><div class="tag">回饋 05</div><h3>品釀家專屬高階待遇</h3><p>當你成為 ABV 的高階會員，回饋不只是點數，而是開始享有真正有差異的專屬待遇。</p><ul><li>升等先送 100 點</li><li>消費享 9 折優惠</li><li>啤酒外帶享 65 折優惠</li><li>消費點數 1.5 倍累積</li></ul></article></div>
+            
+            <div class="benefit-slide"><article class="card tier-card highlight"><div class="tag">好友分享</div><h3>好友分享回饋方案</h3><p>邀請好友加入 ABV BEER CLUB，當好友成功入會後，分享者即可獲得 10 點回饋；好友作為新會員，則可直接領取入會禮。</p><ul><li>好友成功入會後，分享者可獲得 10 點</li><li>好友完成新入會，即可領取入會禮</li><li>讓會員回饋不只自己用，還能一起分享</li></ul></article></div>
+
+            <div class="benefit-slide"><article class="card tier-card"><div class="tag">全會員共享</div><h3>生日禮券每個會員都有</h3><p>不論你是初酌者、微醺客還是品釀家，都享有生日禮券回饋，讓每年的生日聚餐更有理由約起來。</p><ul><li>每月 1 日發送生日禮券</li><li>300 元現金抵用券</li><li>單次消費滿 2,000 元可使用</li><li>生日禮券當月有效</li></ul></article></div>
+          </div>
+        </div>
+        <div class="benefits-controls">
+          <button class="benefits-arrow benefits-prev" type="button" aria-label="上一組">‹</button>
+          <div class="benefits-dots"></div>
+          <button class="benefits-arrow benefits-next" type="button" aria-label="下一組">›</button>
+        </div>
+      </div>
+      <div class="pill-row"><div class="pill">入會禮、點數、兌換、里程碑、品釀家待遇，一次整合</div></div>
+    </section>
+
+
+
+    <section id="share-reward" class="section">
+      <h2>好友分享回饋方案</h2>
+      <p class="section-intro">把 ABV BEER CLUB 分享給朋友，不只好友能拿到入會禮，你自己也能獲得點數回饋。這不是單次優惠，而是讓會員回饋可以一起分享、一起累積。</p>
+      <div class="grid-2">
+        <article class="card highlight">
+          <h3>分享者可獲得什麼？</h3>
+          <ul>
+            <li>邀請好友加入 ABV BEER CLUB</li>
+            <li>好友成功入會後，分享者可獲得 10 點</li>
+            <li>點數可累積並用於兌換各品牌指定餐點</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>好友可獲得什麼？</h3>
+          <ul>
+            <li>好友作為新入會會員，可直接領取入會禮</li>
+            <li>入會禮為 6 品牌招牌菜兌換券，即領即用</li>
+            <li>完成入會後，也能開始累積自己的會員點數與啤酒里程碑</li>
+          </ul>
+        </article>
+      </div>
+      <div class="pill-row">
+        <div class="pill">分享成功，分享者 +10 點</div>
+        <div class="pill">新好友入會，即可領取入會禮</div>
+      </div>
+    </section>
+
+    <section id="member-benefits" class="section">
+      <h2>會員升等介紹暨相關好處</h2>
+      <p class="section-intro">在 ABV，你不只是加入會員，而是從第一次用餐開始，逐步累積屬於自己的回饋與等級。消費越多，回饋越高，喝得越多，玩得越深。</p>
+      <div class="tier-flow">
+        <article class="card tier-card">
+          <div class="tag">初酌者</div>
+          <h3>第一次來，就有回饋</h3>
+          <p>完成入會後即可成為初酌者，從第一頓開始累積點數，開啟你的 ABV 會員旅程。</p>
+          <ul>
+            <li>入會立即獲得 6 品牌招牌菜兌換券，即領即用</li>
+            <li>每消費 188 元可累積 1 點</li>
+            <li>每一次消費所獲得的點數，效期為 90 天</li>
+          </ul>
+          <div class="reward-box">入會禮：地中海／加勒比海／閣樓／日式／美式／韓式 6 品牌招牌菜免費兌換券，即領即用</div>
+        </article>
+        <div class="tier-arrow" aria-hidden="true"><div class="tier-arrow__inner"><span class="tier-arrow__label">升級</span><span class="tier-arrow__icon">→</span></div></div>
+        <article class="card tier-card highlight">
+          <div class="tag">微醺客</div>
+          <h3>開始常來的你</h3>
+          <p>任一品牌累積消費滿 6,000 元，即可自動升等為微醺客，享有更高的點數累積速度。</p>
+          <ul>
+            <li>升等贈送 30 點</li>
+            <li>每消費 188 元可累積 1.2 點</li>
+            <li>升等後資格效期為 365 天</li>
+            <li>資格期間累積消費滿 4,800 元即可續等</li>
+          </ul>
+        </article>
+        <div class="tier-arrow" aria-hidden="true"><div class="tier-arrow__inner"><span class="tier-arrow__label">再升級</span><span class="tier-arrow__icon">→</span></div></div>
+        <article class="card tier-card is-top-tier highlight">
+          <div class="tag">品釀家</div>
+          <h3>真正懂喝的玩家</h3>
+          <p>任一品牌累積消費滿 24,000 元，即可升等為品釀家，享受最高等級回饋。</p>
+          <ul>
+            <li>升等贈送 100 點</li>
+            <li>每消費 188 元可累積 1.5 點</li>
+            <li>消費享 9 折優惠</li>
+            <li>啤酒外帶享 65 折優惠</li>
+            <li>升等後資格效期為 365 天</li>
+            <li>資格期間累積消費滿 20,000 元即可續等</li>
+          </ul>
+        </article>
+      </div>
+      <div class="pill-row" style="width:100%; margin-top:18px;"><div class="pill">來 ABV，不只是吃飯，是一次一次升級的過程</div></div>
+    </section>
+
+    <section id="points" class="section">
+      <h2>消費累積點數說明</h2>
+      <p class="section-intro">ABV 的點數不是拿來直接折現，而是換成真正值得的餐點與會員專屬回饋。從 15 點開始，就能把每一次用餐變成下一次聚餐的理由。</p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>點數怎麼累積？</h3>
+          <ul>
+            <li>初酌者：每消費 188 元可累積 1 點</li>
+            <li>微醺客：每消費 188 元可累積 1.2 點</li>
+            <li>品釀家：每消費 188 元可累積 1.5 點</li>
+            <li>每一次消費所獲得的點數，效期皆為 90 天</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>點數可以做什麼？</h3>
+          <ul>
+            <li>可兌換各品牌指定餐點</li>
+            <li>需先轉換為禮物券，再於現場核銷</li>
+            <li>目前點數暫不開放轉讓</li>
+            <li>點數不得兌換現金</li>
+          </ul>
+        </article>
+      </div>
+      <div class="notes">
+        <h3>點數兌換使用說明</h3>
+        <ul>
+          <li>點數兌換商品為固定品項，恕不提供補差價更換。</li>
+          <li>兌換商品限內用使用，恕不提供外帶。</li>
+          <li>點數兌換不可與其他優惠或折扣併用。</li>
+          <li>每次消費限使用乙張點數兌換商品。</li>
+          <li>兌換流程：開啟會員中心 → 選擇兌換項目 → 確認轉為禮物券 → 至禮物券分類核銷使用。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="redeem" class="section">
+      <h2>各品牌點數可兌換商品說明</h2>
+      <p class="section-intro">你累積的點數，不只是數字，而是下一次聚餐可以直接換到的料理。每個品牌我們都先精選一道人氣代表菜，幫你更快理解「這些點數到底值不值得」。</p>
+      <div class="brand-grid">
+        <article class="card brand-card"><h3>ABV 地中海餐酒館</h3><div class="reward-hero-card"><div class="reward-hero-media"><div class="reward-hero-placeholder">代表菜圖片<br>建議放：義式風味鮮蕈松露鍋飯</div></div><div class="reward-hero-copy"><div class="reward-tags"><span class="reward-tag">45點人氣兌換</span><span class="reward-tag">奶香蕈菇</span><span class="reward-tag">適合聚餐共享</span></div><h4>義式風味鮮蕈松露鍋飯</h4><p>如果你想讓會員一眼感受到點數的價值，地中海最適合主打這道。蕈菇、松露與鍋飯的香氣很容易建立「這不是隨便換的小東西」的感受。</p><div class="reward-cta-row"><a class="reward-link" href="https://www.abv.com.tw/mediterranean-store" target="_blank" rel="noopener">查看門市資訊</a><a class="reward-link" href="#">線上訂位</a></div></div></div><div class="reward-list"><div class="reward-item"><span class="pts">15點</span><div>克羅埃西亞式布丁蛋糕</div></div><div class="reward-item"><span class="pts">25點</span><div>瑪格莉特披薩／蟹肉沾醬佐批塔</div></div><div class="reward-item"><span class="pts">35點</span><div>義式手工方餃佐波隆那肉醬／松子菠菜酸奶乳酪披薩／辣味炸雞翅／摩洛哥風味香腸炒雞肉／法式牛肝菌洋蔥燉牛筋</div></div><div class="reward-item"><span class="pts">45點</span><div>義式風味鮮蕈松露鍋飯</div></div><div class="reward-item"><span class="pts">50點</span><div>火烤牛肉佐熱水澡醬</div></div></div></article>
+        <article class="card brand-card"><h3>ABV 加勒比海餐酒館</h3><div class="reward-hero-card"><div class="reward-hero-media"><div class="reward-hero-placeholder">代表菜圖片<br>建議放：巴拿馬經典綜合海鮮飯</div></div><div class="reward-hero-copy"><div class="reward-tags"><span class="reward-tag">45點人氣兌換</span><span class="reward-tag">海鮮系主打</span><span class="reward-tag">聚餐感強</span></div><h4>巴拿馬經典綜合海鮮飯</h4><p>加勒比海品牌適合用海鮮飯當視覺主菜，一上圖就有份量感，也比較能讓人理解「點數真的可以換到一份像樣的料理」。</p><div class="reward-cta-row"><a class="reward-link" href="https://www.abv.com.tw/caribbean-store" target="_blank" rel="noopener">查看門市資訊</a><a class="reward-link" href="#">線上訂位</a></div></div></div><div class="reward-list"><div class="reward-item"><span class="pts">15點</span><div>椰子蛋糕</div></div><div class="reward-item"><span class="pts">25點</span><div>巴拉圭式玉米鬆糕／墨西哥酥炸魷魚圈</div></div><div class="reward-item"><span class="pts">30點</span><div>加勒比海椰汁炒蛤蠣</div></div><div class="reward-item"><span class="pts">35點</span><div>醬燒傑克雞翅</div></div><div class="reward-item"><span class="pts">40點</span><div>伊拉洽燉手撕豬</div></div><div class="reward-item"><span class="pts">45點</span><div>阿根廷青醬雞肉串／巴拿馬經典綜合海鮮飯</div></div><div class="reward-item"><span class="pts">50點</span><div>火烤古巴牛排</div></div><div class="reward-item"><span class="pts">70點</span><div>炸物派對拼盤</div></div></div></article>
+        <article class="card brand-card"><h3>ABV 閣樓餐酒館</h3><div class="reward-hero-card"><div class="reward-hero-media"><div class="reward-hero-placeholder">代表菜圖片<br>建議放：經典淡菜蛤蜊直麵</div></div><div class="reward-hero-copy"><div class="reward-tags"><span class="reward-tag">45點人氣兌換</span><span class="reward-tag">海鮮義麵</span><span class="reward-tag">約會感強</span></div><h4>經典淡菜蛤蜊直麵</h4><p>閣樓餐酒館的兌換頁建議走「景觀餐廳也能把點數換得很有感」的方向，主打這種視覺完整、容易讓人想像用餐情境的品項。</p><div class="reward-cta-row"><a class="reward-link" href="https://www.abv.com.tw/penthouse-store" target="_blank" rel="noopener">查看門市資訊</a><a class="reward-link" href="#">線上訂位</a></div></div></div><div class="reward-list"><div class="reward-item"><span class="pts">15點</span><div>西班牙式火腿可樂餅</div></div><div class="reward-item"><span class="pts">25點</span><div>雪莉酒炒蛤蜊</div></div><div class="reward-item"><span class="pts">30點</span><div>燻鮭焗醬佐批塔麵包</div></div><div class="reward-item"><span class="pts">35點</span><div>檸香鳀魚辣炒蝦</div></div><div class="reward-item"><span class="pts">40點</span><div>傳統根特奶油燉雞／黑啤酒馬鈴薯炒香腸</div></div><div class="reward-item"><span class="pts">45點</span><div>魚子燻鮭魚寬扁／經典淡菜蛤蜊直麵</div></div><div class="reward-item"><span class="pts">50點</span><div>熱那亞青醬野菇雞肉直麵／摩洛哥風味烤牛肉串</div></div></div></article>
+        <article class="card brand-card"><h3>ABV 日式居酒館</h3><div class="reward-hero-card"><div class="reward-hero-media"><div class="reward-hero-placeholder">代表菜圖片<br>建議放：和牛富士宮炒麵</div></div><div class="reward-hero-copy"><div class="reward-tags"><span class="reward-tag">45點人氣兌換</span><span class="reward-tag">日式鐵板感</span><span class="reward-tag">高辨識度</span></div><h4>和牛富士宮炒麵</h4><p>日式居酒館建議用鐵板感、醬香感明確的料理當代表圖，這種品項在網頁上特別容易帶出「晚餐就是這一份」的直接誘惑。</p><div class="reward-cta-row"><a class="reward-link" href="https://www.abv.com.tw/japanese-store" target="_blank" rel="noopener">查看門市資訊</a><a class="reward-link" href="#">線上訂位</a></div></div></div><div class="reward-list"><div class="reward-item"><span class="pts">15點</span><div>蒜蜆活力湯／磯邊醬油團子</div></div><div class="reward-item"><span class="pts">30點</span><div>嘎哩嘎哩雞軟骨／起司麻糬牛肉串／綜合海鮮沙拉</div></div><div class="reward-item"><span class="pts">35點</span><div>蒜味噌骰子牛／蒲燒鯛魚玉子燒</div></div><div class="reward-item"><span class="pts">45點</span><div>和牛富士宮炒麵／照燒牛肉廣島燒</div></div><div class="reward-item"><span class="pts">80點</span><div>特盛稻草燒</div></div></div></article>
+        <article class="card brand-card"><h3>ABV 美式餐酒館</h3><div class="reward-hero-card"><div class="reward-hero-media"><div class="reward-hero-placeholder">代表菜圖片<br>建議放：煙燻慢火烤肋排（半份）</div></div><div class="reward-hero-copy"><div class="reward-tags"><span class="reward-tag">75點高價值兌換</span><span class="reward-tag">肉食主打</span><span class="reward-tag">點數感最強</span></div><h4>煙燻慢火烤肋排（半份）</h4><p>美式餐酒館最適合打出「點數真的很值得」的感覺，用肋排這種高感知價值的品項做主視覺，最容易拉高整頁吸引力。</p><div class="reward-cta-row"><a class="reward-link" href="https://www.abv.com.tw/americano-store" target="_blank" rel="noopener">查看門市資訊</a><a class="reward-link" href="#">線上訂位</a></div></div></div><div class="reward-list"><div class="reward-item"><span class="pts">15點</span><div>紐奧良貝涅甜甜圈</div></div><div class="reward-item"><span class="pts">25點</span><div>酥炸手工莫札瑞拉捲</div></div><div class="reward-item"><span class="pts">30點</span><div>美式辣豆牛肉醬</div></div><div class="reward-item"><span class="pts">35點</span><div>香草蒜味雞翅／紐奧良炸雞翅／美式愛達荷火烤肉餅</div></div><div class="reward-item"><span class="pts">40點</span><div>四種起司風味披薩</div></div><div class="reward-item"><span class="pts">45點</span><div>紐澳良海鮮香辣飯</div></div><div class="reward-item"><span class="pts">50點</span><div>爐火慢烤手撕豬</div></div><div class="reward-item"><span class="pts">75點</span><div>煙燻慢火烤肋排（半份）</div></div></div></article>
+        <article class="card brand-card"><h3>ABV 韓式餐酒館</h3><div class="reward-hero-card"><div class="reward-hero-media"><div class="reward-hero-placeholder">代表菜圖片<br>建議放：馬鈴薯燉排骨湯</div></div><div class="reward-hero-copy"><div class="reward-tags"><span class="reward-tag">70點高人氣兌換</span><span class="reward-tag">湯鍋系主打</span><span class="reward-tag">韓式辨識度高</span></div><h4>馬鈴薯燉排骨湯</h4><p>韓式餐酒館的兌換頁可以用鍋物型大菜拉出價值感，這種份量感強、記憶點高的料理，特別適合做會員點數頁的主打圖片。</p><div class="reward-cta-row"><a class="reward-link" href="https://www.abv.com.tw/korean-store" target="_blank" rel="noopener">查看門市資訊</a><a class="reward-link" href="#">線上訂位</a></div></div></div><div class="reward-list"><div class="reward-item"><span class="pts">15點</span><div>韓式糖餅</div></div><div class="reward-item"><span class="pts">20點</span><div>風味炒櫛瓜</div></div><div class="reward-item"><span class="pts">25點</span><div>炸香腸年糕</div></div><div class="reward-item"><span class="pts">30點</span><div>豬肉石鍋拌飯</div></div><div class="reward-item"><span class="pts">35點</span><div>蛤蜊辣豆腐湯</div></div><div class="reward-item"><span class="pts">40點</span><div>經典洋釀炸雞</div></div><div class="reward-item"><span class="pts">45點</span><div>雪花牛</div></div><div class="reward-item"><span class="pts">50點</span><div>牛肋條</div></div><div class="reward-item"><span class="pts">60點</span><div>翼板牛</div></div><div class="reward-item"><span class="pts">70點</span><div>馬鈴薯燉排骨湯</div></div></div></article>
+      </div>
+      <div class="notes"><h3>使用提醒</h3><ul><li>各品牌點數商品請依會員中心實際顯示為準。</li><li>本頁不逐一展開完整門市資訊，建議導向全門市頁或訂位頁處理。</li><li>若你後續補上真實菜品圖片，建議每品牌放 1 張代表菜即可，不需要每道都放。</li></ul></div>
+    </section>
+
+    <section id="milestone" class="section">
+      <h2>啤酒里程碑遊戲暨里程碑點數兌換說明</h2>
+      <p class="section-intro">在 ABV，每一瓶啤酒都會被記住。這不是一般點數，而是一段屬於你的精釀旅程。從第 1 瓶到第 100 點，越喝越有紀錄，越喝越有獎勵。</p>
+      <div class="grid-2">
+        <article class="card">
+          <h3>點數累積方式</h3>
+          <p>於 ABV 門市內飲用或外帶指定精釀啤酒，即可獲得點數。</p>
+          <div class="reward-cta-row" style="margin-top:14px;">
+            <div class="reward-tag" style="font-size:14px; min-height:34px; padding:0 14px;">累積 1 點</div>
+            <div class="reward-link" style="pointer-events:none;">購買 330ml 或 355ml 標準瓶裝精釀啤酒</div>
+          </div>
+          <div class="reward-cta-row" style="margin-top:12px;">
+            <div class="reward-tag" style="font-size:14px; min-height:34px; padding:0 14px;">累積 2 點</div>
+            <div class="reward-link" style="pointer-events:none;">購買 500ml 以上大瓶裝、季節限定版或特定高單價精釀啤酒</div>
+          </div>
+        </article>
+        <article class="card">
+          <h3>里程碑怎麼兌換？</h3>
+          <ul>
+            <li>達標後，系統會詢問是否轉為禮物券</li>
+            <li>確認後，禮物券會存入會員中心</li>
+            <li>使用時由會員於禮物券分類點擊兌換，現場核銷</li>
+          </ul>
+        </article>
+      </div>
+      <div class="milestone-grid" style="margin-top:18px;">
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,var(--milestone-ipa) 0%, #c57a3b 100%);"><div class="step-placeholder">小圖位置<br>紀念啤酒</div></div><div class="step-tier">10 點</div><strong>ABV 十週年紀念啤酒</strong><p>用第一個里程碑，開啟你的精釀旅程。</p></div>
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,#d7c1ab 0%, var(--milestone-stout) 100%);"><div class="step-placeholder">小圖位置<br>名片式開瓶器</div></div><div class="step-tier">20 點</div><strong>ABV 名片式開瓶器</strong><p>隨身帶著走的開瓶器，也是一個很有記憶點的收藏。</p></div>
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,#f1d9b8 0%, var(--milestone-wheat) 100%);"><div class="step-placeholder">小圖位置<br>甜點任選</div></div><div class="step-tier">30 點</div><strong>甜點任選乙份</strong><p>喝到這裡，已經可以換一份真正吃得到的回饋。</p></div>
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,var(--milestone-ipa) 0%, #8c6239 100%);"><div class="step-placeholder">小圖位置<br>兩支紀念啤酒</div></div><div class="step-tier">40 點</div><strong>ABV 十週年紀念啤酒兩支</strong><p>從一支到兩支，回饋感也開始升級。</p></div>
+        <div class="step is-highlight"><div class="step-media" style="background:linear-gradient(135deg,#f1e5d8 0%, var(--milestone-lager) 100%);"><div class="step-placeholder">小圖位置<br>經典啤酒杯</div></div><div class="step-tier">50 點</div><strong>ABV 經典啤酒杯</strong><p>喝到這裡，已經不只是回饋，而是開始進入收藏區。</p></div>
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,#d9a441 0%, var(--milestone-lager) 100%);"><div class="step-placeholder">小圖位置<br>中價位啤酒</div></div><div class="step-tier">60 點</div><strong>中價位啤酒乙支</strong><p>繼續累積，讓下一支你想喝的酒成為獎勵。</p></div>
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,#ead8c7 0%, var(--milestone-stout) 100%);"><div class="step-placeholder">小圖位置<br>造型開瓶器</div></div><div class="step-tier">70 點</div><strong>ABV 造型開瓶器</strong><p>比起一般贈品，更像一個會被留下來的收藏物件。</p></div>
+        <div class="step is-highlight"><div class="step-media" style="background:linear-gradient(135deg,#d9a441 0%, var(--milestone-sour) 100%);"><div class="step-placeholder">小圖位置<br>高價位啤酒折價</div></div><div class="step-tier">80 點</div><strong>高價位啤酒折價 400 元</strong><p>開始解鎖更高價值的啤酒選擇，里程碑感會很明顯。</p></div>
+        <div class="step"><div class="step-media" style="background:linear-gradient(135deg,#d7c1ab 0%, var(--milestone-stout) 100%);"><div class="step-placeholder">小圖位置<br>精釀工具書</div></div><div class="step-tier">90 點</div><strong>ABV 首版精釀啤酒工具書</strong><p>不是每個品牌都能把知識做成可收藏的回饋。</p></div>
+        <div class="step is-highlight"><div class="step-media" style="background:linear-gradient(135deg,var(--milestone-lager) 0%, var(--milestone-ipa) 100%);"><div class="step-placeholder">小圖位置<br>啤酒杯禮盒組</div></div><div class="step-tier">100 點</div><strong>ABV 啤酒杯禮盒組</strong><p>最終里程碑，適合做成這一整段最醒目的終點獎勵。</p></div>
+      </div>
+    </section>
+
+    <section id="birthday" class="section">
+      <h2>生日禮說明</h2>
+      <p class="section-intro">生日當然要來 ABV 好好慶祝。每個月 1 日，系統會發送當月壽星生日禮券，讓你的生日聚餐更有理由約起來。</p>
+      <div class="grid-2">
+        <article class="card highlight"><h3>生日禮內容</h3><ul><li>每月 1 日發送當月壽星生日禮券</li><li>內容為 300 元現金抵用券</li><li>適用任何層級會員</li><li>生日禮券當月有效</li></ul></article>
+        <article class="card"><h3>使用方式</h3><ul><li>ABV 旗下任一品牌皆可使用</li><li>單次消費滿 2,000 元可折抵 300 元</li><li>其他使用規範依現場活動公告為準</li></ul></article>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <h2>常見問答 FAQ</h2>
+      <p class="section-intro">把最常被問的問題整理在這裡，讓會員快速找到答案，也讓門市與客服更好回覆。</p>
+      <div class="faq-tabs">
+        <button class="faq-tab active" data-faq="faq-member">會員制度</button>
+        <button class="faq-tab" data-faq="faq-point">點數累積與兌換</button>
+        <button class="faq-tab" data-faq="faq-share">好友分享</button>
+        <button class="faq-tab" data-faq="faq-milestone">啤酒里程碑</button>
+        <button class="faq-tab" data-faq="faq-birthday">生日禮</button>
+      </div>
+      <div id="faq-member" class="faq-panel active">
+        <div class="faq-item open"><button class="faq-q"><span>如何加入 ABV 會員？</span><span>＋</span></button><div class="faq-a">可透過現場掃描 QR Code 或線上註冊加入，完成基本資料填寫即可成為會員。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>加入會員需要費用嗎？</span><span>＋</span></button><div class="faq-a">完全免費加入。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>會員等級如何升級？</span><span>＋</span></button><div class="faq-a">依累積消費金額自動升級，無需額外申請。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>會員等級會下降嗎？</span><span>＋</span></button><div class="faq-a">若未達續等門檻，系統將依規則調整會員等級。</div></div>
+      </div>
+      <div id="faq-point" class="faq-panel">
+        <div class="faq-item open"><button class="faq-q"><span>點數多久會過期？</span><span>＋</span></button><div class="faq-a">每一次消費所獲得的點數，效期為 90 天。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>點數可以折抵現金嗎？</span><span>＋</span></button><div class="faq-a">不行，點數主要用於兌換指定商品與會員專屬回饋。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>點數可以轉讓給別人嗎？</span><span>＋</span></button><div class="faq-a">目前點數暫不開放轉讓。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>點數要怎麼使用？</span><span>＋</span></button><div class="faq-a">需先於會員中心兌換成禮物券，再到禮物券分類點擊使用，由現場進行核銷。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>點數兌換可以補差價嗎？</span><span>＋</span></button><div class="faq-a">不行，兌換內容為固定品項，恕不提供補差價更換。</div></div>
+      </div>
+
+      <div id="faq-share" class="faq-panel">
+        <div class="faq-item open"><button class="faq-q"><span>什麼是好友分享回饋方案？</span><span>＋</span></button><div class="faq-a">會員可邀請好友加入 ABV BEER CLUB。當好友成功入會後，分享者可獲得 10 點回饋。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>被邀請的好友可以拿到什麼？</span><span>＋</span></button><div class="faq-a">好友作為新入會會員，完成加入後即可領取入會禮。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>分享回饋何時發放？</span><span>＋</span></button><div class="faq-a">好友成功完成入會後，系統將依活動設定發送 10 點回饋給分享者；實際發放時間依系統作業為準。</div></div>
+      </div>
+
+      <div id="faq-milestone" class="faq-panel">
+        <div class="faq-item open"><button class="faq-q"><span>什麼是啤酒里程碑？</span><span>＋</span></button><div class="faq-a">指定精釀啤酒可依瓶型與品項累積 1 點或 2 點，作為會員專屬成就記錄。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>里程碑怎麼兌換？</span><span>＋</span></button><div class="faq-a">達標後，系統會詢問是否兌換成禮物券；確認後會存入會員中心的禮物券分類，供現場核銷使用。</div></div>
+      </div>
+      <div id="faq-birthday" class="faq-panel">
+        <div class="faq-item open"><button class="faq-q"><span>生日禮何時發放？</span><span>＋</span></button><div class="faq-a">每月 1 日發送當月壽星生日禮券。</div></div>
+        <div class="faq-item"><button class="faq-q"><span>生日禮有效到什麼時候？</span><span>＋</span></button><div class="faq-a">生日禮券為當月有效，逾期失效。</div></div>
+      </div>
+    </section>
+
+    <section id="terms" class="section">
+      <h2>會員服務條款、點數條款、隱私權政策</h2>
+      <p class="section-intro">這一區提供會員制度正式規範，可作為會員註冊流程、FAQ 頁底與網站 footer 的完整查閱內容。</p>
+      <div class="terms-nav">
+        <button class="terms-tab active" data-terms="terms-member">會員服務條款</button>
+        <button class="terms-tab" data-terms="terms-point">點數條款</button>
+        <button class="terms-tab" data-terms="terms-privacy">隱私權政策</button>
+      </div>
+      
+<div id="terms-member" class="terms-panel active"><article class="policy policy-member">
+  <h3>ABV BEER CLUB 會員服務條款</h3>
+  <p>歡迎您加入法西亞股份有限公司（ABV Bar &amp; Kitchen 餐飲集團，以下簡稱本集團）所提供之會員制度與相關數位服務（以下簡稱本服務）。為保障會員權益並維護會員制度之公平與正常運作，請您於註冊、登入、使用會員帳號、參與活動或使用本服務前，詳細閱讀本條款內容。</p>
+  <p>當您完成會員註冊、登入帳號、使用本服務或參與會員活動時，即表示您已閱讀、了解並同意遵守本條款及相關公告內容。</p>
+
+  <h4>一、適用範圍</h4>
+  <p>本條款適用於本集團旗下品牌、門市、官方網站、會員系統、線上訂位平台、社群平台活動及其他由本集團提供之會員相關服務，包含 ABV地中海餐酒館、ABV加勒比海餐酒館、ABV閣樓餐酒館、ABV日式居酒館、ABV美式餐酒館、ABV韓式餐酒館，以及本集團現在或未來經營之其他品牌、門市與服務。</p>
+
+  <h4>二、會員資格與註冊</h4>
+  <p>凡年滿十二歲以上之自然人，得透過本集團官方網站、門市現場、指定合作平台或其他公告方式申請加入會員。</p>
+  <p>未成年人應於法定代理人或監護人同意下註冊及使用本服務。</p>
+  <p>會員應提供真實、正確、完整且最新之資料，並自行維護資料正確性。如因資料錯誤、過期、冒用、偽造或未更新所致權益受損，由會員自行負責。</p>
+  <p>本集團得視情況要求手機驗證、電子郵件驗證或其他必要身分確認程序。</p>
+
+  <h4>三、會員帳號管理</h4>
+  <p>會員帳號原則上以手機號碼、電子郵件、第三方登入帳號或本集團指定方式建立。</p>
+  <p>會員應妥善保管帳號及登入資訊，不得轉讓、出租、借用、授權他人使用或供第三人使用。</p>
+  <p>如因會員保管不當、遭冒用、帳號外洩或其他可歸責會員事由所致損失，本集團不負賠償責任。</p>
+  <p>若發現帳號遭未經授權使用，會員應立即通知本集團。</p>
+
+  <h4>四、會員等級制度</h4>
+  <p>本集團得依會員消費紀錄、消費金額、點數累積、活動參與、互動紀錄或其他制度標準，建立會員等級制度，包含但不限於：</p>
+  <ul>
+    <li>初酌者</li>
+    <li>微醺客</li>
+    <li>品釀家</li>
+    <li>未來新增之其他等級</li>
+  </ul>
+  <p>會員資格、升等條件、續等條件、效期、權益內容與調整方式，依官方公告及系統顯示為準。</p>
+  <p>本集團得因營運需求調整會員制度內容，無須個別通知。</p>
+
+  <h4>五、點數累積與兌換</h4>
+  <p>會員於指定通路消費，得依當期活動規則獲得點數、徽章、里程碑資格或其他回饋。</p>
+  <p>點數累積方式、適用門市、折抵比例、使用限制、到期日、兌換品項及相關規則，依官方公告與系統顯示為準。</p>
+  <p>點數僅供會員本人使用，不得轉讓、買賣、交換、折現或繼承。</p>
+  <p>如因退貨、取消交易、退款、異常交易、系統錯誤或其他合理原因，本集團得取消、追回、扣除或調整已發放之點數與權益。</p>
+
+  <h4>六、會員優惠與活動</h4>
+  <p>會員得享有生日禮、專屬優惠券、點數活動、啤酒里程碑活動、品牌限定活動、會員日優惠或其他會員專屬回饋。</p>
+  <p>各項活動之期間、門檻、數量、限制條件、適用門市及使用方式，依當期公告為準。</p>
+  <p>除另有規定外，會員優惠不得與其他優惠併用，逾期失效且不得補發。</p>
+
+  <h4>七、系統紀錄與最終認定</h4>
+  <p>會員帳號狀態、點數餘額、會員等級、優惠資格、活動資格、交易紀錄及使用紀錄，均以本集團系統最終紀錄為準。</p>
+  <p>會員如有疑義，得於合理期間內提出查詢，本集團將協助查核，惟最終仍以系統資料及內部判定為準。</p>
+
+  <h4>八、禁止行為</h4>
+  <p>會員不得冒用他人身分註冊、提供不實資料、重複建立異常帳號、惡意洗點數、套利、偽造交易、轉售會員優惠、干擾或攻擊系統、損害本集團商譽，或從事其他違反法令、公序良俗及影響會員制度公平性之行為。</p>
+  <p>如有前述情形，本集團得立即採取必要處理措施。</p>
+
+  <h4>九、違規處理與停權</h4>
+  <p>會員如違反本條款、活動規則、法令規定，或有影響會員制度公平性之情形，本集團得視情節採取警示通知、扣除點數、降級會員資格、取消優惠資格、暫停帳號使用、終止會員資格、拒絕未來申請會員等措施。</p>
+  <p>本集團對違規情形保有最終判定權。</p>
+
+  <h4>十、服務變更、中止與終止</h4>
+  <p>本集團得因系統維護、設備更新、營運調整、政策變更、不可抗力或其他必要事由，隨時變更、暫停、中止或終止全部或部分會員服務。</p>
+  <p>本集團對因此所生之不便、資料延遲、點數調整或服務中斷，不負損害賠償責任，但法令另有規定者除外。</p>
+
+  <h4>十一、會員終止資格</h4>
+  <p>會員得隨時申請終止會員資格。</p>
+  <p>會員資格終止後，除法令另有規定或本集團另行公告外，未使用之點數、優惠券、等級資格及相關權益即告失效，不得要求補償。</p>
+
+  <h4>十二、個人資料保護</h4>
+  <p>會員個人資料之蒐集、處理與利用，依本集團隱私權保護政策辦理。當您註冊會員時，即表示同意本集團依該政策提供相關服務。</p>
+
+  <h4>十三、責任限制</h4>
+  <p>本集團對於因會員使用或無法使用本服務所致之直接、間接、附帶或衍生性損害，在法律允許範圍內不負賠償責任。</p>
+  <p>會員因違反本條款或法令致本集團受有損害者，應負損害賠償責任。</p>
+
+  <h4>十四、條款修改</h4>
+  <p>本集團得隨時修訂本條款、會員制度內容、活動規則及相關權益，修訂後將公告於官方網站、會員系統或相關平台，自公告日起生效。</p>
+  <p>會員於修訂後繼續使用本服務者，視為同意修訂內容。</p>
+
+  <h4>十五、準據法與管轄法院</h4>
+  <p>本條款之解釋與適用，以中華民國法律為準據法。如有爭議，除法律另有規定外，以臺灣臺北地方法院為第一審管轄法院。</p>
+
+  <h4>十六、聯絡方式</h4>
+  <p>法西亞股份有限公司（ABV Bar &amp; Kitchen 餐飲集團）<br>客服信箱：abv_marketing@abv.com.tw</p>
+</article></div>
+
+      <div id="terms-point" class="terms-panel"><article class="policy"><h3>ABV 點數使用條款</h3><h4>一、點數累積</h4><p>會員於 ABV 消費時，可依消費金額累積點數，實際累積方式依會員等級與系統設定為準。每一次消費所獲得的點數，效期為 90 天。</p><h4>二、點數用途</h4><p>點數可用於兌換指定餐點、啤酒或會員專屬商品。點數不得兌換現金或轉換為其他等值形式，目前亦不開放點數轉讓。</p><h4>三、點數兌換規則</h4><ol><li>點數兌換為指定商品，恕不提供補差價更換其他品項。</li><li>兌換商品限內用使用，恕不提供外帶。</li><li>點數兌換不可與其他優惠或折扣併用。</li><li>每次消費限兌換乙份商品。</li><li>會員需先於會員中心將點數兌換為禮物券，再於現場核銷使用。</li></ol></article></div>
+      
+<div id="terms-privacy" class="terms-panel"><article class="policy policy-privacy">
+  <h3>法西亞股份有限公司（ABV Bar &amp; Kitchen 餐飲集團）隱私權保護政策</h3>
+  <p>歡迎您使用法西亞股份有限公司（ABV Bar &amp; Kitchen 餐飲集團，以下簡稱本集團）所經營之網站、會員系統、線上訂位服務、社群平台、活動頁面及其他相關數位服務（以下統稱本服務）。本集團重視您的個人資料與隱私權保障，並依據中華民國個人資料保護法及相關法令，向您說明本集團蒐集、處理、利用及保護個人資料之方式。當您使用本服務時，即表示您已閱讀、了解並同意本政策內容。</p>
+
+  <h4>1. 適用範圍</h4>
+  <p>本政策適用於本集團旗下品牌與服務，包含 ABV地中海餐酒館、ABV加勒比海餐酒館、ABV閣樓餐酒館、ABV日式居酒館、ABV美式餐酒館、ABV韓式餐酒館，以及本集團現在或未來經營之其他品牌、門市、會員制度與相關數位服務。</p>
+  <p>本政策不適用於第三方網站、支付平台、物流服務商、社群平台或其他非由本集團直接管理之服務，相關隱私權事項請依各該第三方規範辦理。</p>
+
+  <h4>2. 蒐集資料之來源與類型</h4>
+  <p>本集團可能於您註冊會員、線上訂位、購物消費、參與活動、填寫表單、聯繫客服、加入官方帳號、使用網站或其他互動過程中蒐集相關資料。</p>
+  <p>蒐集資料可能包含姓名、手機號碼、電子郵件、生日、地址、會員編號、訂位紀錄、消費紀錄、付款資訊、點數紀錄、會員等級、活動參與紀錄、客服聯繫內容、裝置資訊、IP 位址、Cookie、瀏覽行為、點擊紀錄及其他依法得蒐集之資料。</p>
+  <p>若您透過 Facebook、LINE、Google、Apple 等第三方帳號登入，本集團可能於您授權範圍內取得公開資料或帳號識別資訊。</p>
+
+  <h4>3. 蒐集目的與使用方式</h4>
+  <p>本集團蒐集資料之目的，包括會員管理、身分驗證、訂位安排、消費服務、點數累積與兌換、會員分級管理、優惠發送、活動通知、生日禮遇、客服處理、帳務作業、行銷推廣、數據分析、服務優化、資安管理及法令遵循等用途。</p>
+  <p>於符合法令及蒐集目的範圍內，本集團得使用您的資料提供相關服務與通知，並優化整體使用體驗。</p>
+
+  <h4>4. 會員制度、點數與個人化服務</h4>
+  <p>為提供完整會員體驗，本集團得依會員於各品牌門市或數位服務之消費次數、消費金額、購買品項、點數累積、點數兌換、活動參與、互動紀錄及偏好資料，提供會員分級制度（如初酌者、微醺客、品釀家）、升等資格、生日禮遇、專屬優惠、活動邀請、回流優惠與個人化推薦內容。</p>
+
+  <h4>5. 跨品牌資料整合使用</h4>
+  <p>為提供一致性會員服務與權益整合，本集團得於旗下品牌、門市及官方數位平台間共享必要資料，用於會員識別、點數累積、優惠通知、活動邀請、客戶服務、消費分析及品牌推薦等用途。</p>
+
+  <h4>6. Cookie、分析工具與廣告服務</h4>
+  <p>為提升服務品質與行銷效益，本集團可能使用 Cookie、像素標籤或相關追蹤技術，並搭配 Google Analytics、Google Ads、Meta Pixel、Meta Conversion API、LINE Tag、CRM 系統或其他合法分析工具，以進行流量分析、廣告成效衡量、再行銷推廣、活動追蹤、回購提醒及會員互動優化。</p>
+  <p>您可透過瀏覽器設定拒絕 Cookie 或調整廣告偏好，但部分功能可能因此無法正常使用。</p>
+
+  <h4>7. 個人資料分享對象</h4>
+  <p>除依法令規定、取得您的同意，或為提供服務所必要者外，本集團不會任意出售或揭露您的個人資料。</p>
+  <p>於必要範圍內，本集團可能將資料提供予金流服務商、會員系統商、訂位系統商、物流配送商、資訊技術服務商、廣告平台、行銷合作夥伴、關係企業或依法有權機關。</p>
+
+  <h4>8. 資料保存與安全措施</h4>
+  <p>本集團將於蒐集目的存續期間、會員關係期間、契約履行期間、法令要求保存期間或合理營運所需期間內保存資料，並於目的消失後依程序刪除、去識別化或停止使用，但法令另有規定者不在此限。</p>
+  <p>本集團並採取合理安全措施保護資料，包括 SSL 加密傳輸、權限分級管理、密碼保護、防火牆機制、異常監控、委外保密約定及定期檢視更新等。</p>
+
+  <h4>9. 您的權利</h4>
+  <p>依個人資料保護法，您得就個人資料行使查詢、閱覽、製給複製本、補充、更正、停止蒐集、停止處理、停止利用、刪除及退出行銷通知等權利。</p>
+  <p>如欲申請相關事項，請來信：abv_marketing@abv.com.tw，本集團將於合理期間內協助處理。</p>
+
+  <h4>10. 未成年人保護</h4>
+  <p>本服務並非特別為兒童設計，未成年人使用本服務時，應於法定代理人或監護人同意下為之。</p>
+
+  <h4>11. 政策修訂</h4>
+  <p>本集團得因法令變更、服務調整或營運需求隨時修訂本政策，修訂內容將公告於本服務頁面，並自公告日起生效。</p>
+
+  <h4>12. 聯絡方式</h4>
+  <p>法西亞股份有限公司（ABV Bar &amp; Kitchen 餐飲集團）<br>客服信箱：abv_marketing@abv.com.tw</p>
+
+  <h4>13. 準據法與管轄法院</h4>
+  <p>本政策之解釋與適用，以中華民國法律為準據法。如有爭議，除法律另有規定外，以臺灣臺北地方法院為第一審管轄法院。</p>
+</article></div>
+
+    </section>
+
+    <section class="footer-cta">
+      <div>
+        <h3>把會員制度、點數與里程碑一次整合</h3>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.faq-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.faq-panel').forEach(panel => panel.classList.remove('active'));
+          tab.classList.add('active');
+          const target = document.getElementById(tab.dataset.faq);
+          if (target) target.classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const btn = item.querySelector('.faq-q');
+        if (!btn) return;
+        const toggleItem = function (e) {
+          e.preventDefault();
+          item.classList.toggle('open');
+        };
+        btn.addEventListener('click', toggleItem, { passive: false });
+        btn.addEventListener('touchend', toggleItem, { passive: false });
+      });
+
+      document.querySelectorAll('.terms-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.terms-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.terms-panel').forEach(panel => panel.classList.remove('active'));
+          tab.classList.add('active');
+          const target = document.getElementById(tab.dataset.terms);
+          if (target) target.classList.add('active');
+        });
+      });
+
+      const benefitsCarousel = document.querySelector('[data-carousel="benefits"]');
+      if (benefitsCarousel) {
+        const track = benefitsCarousel.querySelector('.benefits-track');
+        const slides = Array.from(benefitsCarousel.querySelectorAll('.benefit-slide'));
+        const prevBtn = benefitsCarousel.querySelector('.benefits-prev');
+        const nextBtn = benefitsCarousel.querySelector('.benefits-next');
+        const dotsWrap = benefitsCarousel.querySelector('.benefits-dots');
+        let index = 0;
+
+        function getPerView() {
+          if (window.innerWidth <= 680) return 1;
+          if (window.innerWidth <= 980) return 2;
+          return 3;
+        }
+
+        function getPages() {
+          return Math.max(1, Math.ceil(slides.length / getPerView()));
+        }
+
+        function renderDots() {
+          const pages = getPages();
+          dotsWrap.innerHTML = '';
+          for (let i = 0; i < pages; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'benefit-dot' + (i === index ? ' active' : '');
+            dotsWrap.appendChild(dot);
+          }
+        }
+
+        function updateCarousel() {
+          const perView = getPerView();
+          const gap = 18;
+          const viewport = benefitsCarousel.querySelector('.benefits-viewport');
+          const width = viewport.clientWidth;
+          const slideWidth = (width - gap * (perView - 1)) / perView;
+          track.style.transform = `translateX(-${index * (slideWidth + gap) * perView}px)`;
+          prevBtn.disabled = index === 0;
+          nextBtn.disabled = index >= getPages() - 1;
+          renderDots();
+        }
+
+        prevBtn.addEventListener('click', () => {
+          index = Math.max(0, index - 1);
+          updateCarousel();
+        });
+
+        nextBtn.addEventListener('click', () => {
+          index = Math.min(getPages() - 1, index + 1);
+          updateCarousel();
+        });
+
+        window.addEventListener('resize', () => {
+          index = Math.min(index, getPages() - 1);
+          updateCarousel();
+        });
+
+        updateCarousel();
+      }
+    });
+  </script>
+</body>
+</html>
