@@ -21,6 +21,7 @@ jobs:
         run: |
           mkdir -p public
           cp ABV_membership_official_launch_mobile_v2_links_precise.html public/index.html
+          cp -r img public/
           echo "abvclub.com.tw" > public/CNAME
 
       - name: Publish gh-pages branch
