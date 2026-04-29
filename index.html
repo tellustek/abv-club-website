@@ -488,6 +488,148 @@
       section[id] { scroll-margin-top: 118px; }
     }
   
+
+    /* =========================
+       啤酒里程碑：iPad / 手機圖左文右版
+       桌機維持原本 5 欄卡片；
+       1024px 以下改成 List Card，提高閱讀效率並避免圖片被裁切成橫幅。
+    ========================= */
+    @media (min-width: 681px) and (max-width: 1024px) {
+      #milestone .milestone-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      #milestone .step {
+        display: grid;
+        grid-template-columns: 150px minmax(0, 1fr);
+        grid-template-rows: auto auto 1fr;
+        column-gap: 16px;
+        row-gap: 6px;
+        align-items: start;
+        min-height: auto;
+        padding: 16px;
+      }
+
+      #milestone .step-media {
+        grid-column: 1;
+        grid-row: 1 / 4;
+        width: 150px;
+        height: 150px;
+        margin: 0;
+        border-radius: 16px;
+      }
+
+      #milestone .step-tier,
+      #milestone .step strong,
+      #milestone .step p {
+        grid-column: 2;
+        position: relative;
+        z-index: 1;
+      }
+
+      #milestone .step-tier {
+        margin: 0 0 4px;
+      }
+
+      #milestone .step strong {
+        font-size: 19px;
+        line-height: 1.45;
+        margin: 0;
+      }
+
+      #milestone .step p {
+        font-size: 14px;
+        line-height: 1.75;
+        margin: 0;
+      }
+
+      #milestone .step.is-highlight {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      #milestone .milestone-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      #milestone .step {
+        display: grid;
+        grid-template-columns: 118px minmax(0, 1fr);
+        grid-template-rows: auto auto 1fr;
+        column-gap: 14px;
+        row-gap: 6px;
+        align-items: start;
+        min-height: auto;
+        padding: 14px;
+      }
+
+      #milestone .step-media {
+        grid-column: 1;
+        grid-row: 1 / 4;
+        width: 118px;
+        height: 118px;
+        margin: 0;
+        border-radius: 14px;
+      }
+
+      #milestone .step-tier,
+      #milestone .step strong,
+      #milestone .step p {
+        grid-column: 2;
+        position: relative;
+        z-index: 1;
+      }
+
+      #milestone .step-tier {
+        margin: 0 0 4px;
+        min-height: 28px;
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      #milestone .step strong {
+        font-size: 17px;
+        line-height: 1.45;
+        margin: 0;
+      }
+
+      #milestone .step p {
+        font-size: 14px;
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      #milestone .step.is-highlight {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      #milestone .step {
+        grid-template-columns: 104px minmax(0, 1fr);
+        column-gap: 12px;
+        padding: 12px;
+      }
+
+      #milestone .step-media {
+        width: 104px;
+        height: 104px;
+      }
+
+      #milestone .step strong {
+        font-size: 16px;
+      }
+
+      #milestone .step p {
+        font-size: 13px;
+        line-height: 1.6;
+      }
+    }
+
+
     .policy-member {
       background: linear-gradient(180deg, #fffdf9 0%, #ffffff 100%);
     }
